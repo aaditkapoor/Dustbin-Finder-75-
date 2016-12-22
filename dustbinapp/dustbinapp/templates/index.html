@@ -1,0 +1,150 @@
+<html>
+<head>
+	<title> WELCOME | DUSTBINAPP </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+
+
+<!-- START INDEX -->
+<nav>
+    <div class="nav-wrapper red">
+      <a href="/" class="brand-logo">DUSTBINS</a>
+      <a href="/" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/about/">ABOUT</a></li>
+				<li><a href="/count/">DUSTBIN COUNT</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+				<li><a href="/about/">ABOUT</a></li>
+				<li><a href="/count/">DUSTBIN COUNT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+{% if flag %}
+<script>
+
+Materialize.toast('LOCATION ALREADY THERE, UPDATING LOCATION', 4000) // 4000 is the duration of the toast
+</script>
+{% endif %}
+
+
+	<script>
+$(document).ready(function(){
+    if (navigator.geolocation) {
+			Materialize.toast('CAPTURED LOCATION!', 4000) // 4000 is the duration of the toast
+
+        navigator.geolocation.getCurrentPosition(showLocation);
+    } else {
+        $('#location').html('Geolocation is not supported by this browser.');
+    }
+});
+
+function showLocation(position) {
+
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    $.ajax({
+        type:'GET',
+        url:'check/',
+        data:'lat='+latitude+'&long='+longitude,
+        success:function(msg){
+            if(msg){
+               $("#location").html(msg);
+            }else{
+                $("#location").html('Not Available');
+            }
+        }
+    });
+}
+
+
+function claim() {
+	Materialize.toast('YOUR LOCATION WILL BE CHECKED IN THE NEXT STEP!', 4000);
+	 // 4000 is the duration of the toast
+	 window.location.href="/claim/";
+}
+
+function checknearme() {
+	Materialize.toast("ACCORDING TO YOUR LOCATION, DUSTINBS WILL BE CHECKED!",4000);
+	window.location.href="/check_dustbins/";
+
+}
+
+
+</script>
+
+
+<center>
+
+<div class="row">
+        <div class="col s12 m6">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">INTORDUCTION</span>
+              <p>WELCOME TO _____ ! <br>
+							OUR SYSTEM HELPS TO FIND DUSTBINS AROUND YOU, BY USING OUR TECHNOLOGY.
+						YOUR LOCATION IS AUTOMATICALLY CAPTURED AND THEN CHECKED ACROSS OUR SYSTEM, SO THAT WE CAN FIND A MATCH FOR A DUSTBIN NEAR YOU.</p>
+            </div>
+            <div class="card-action">
+              <a href="#">CONTACT</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+			<div class="row">
+			        <div class="col s12 m6">
+			          <div class="card blue-grey darken-1">
+			            <div class="card-content white-text">
+			              <span class="card-title">OVERVIEW</span>
+			              <p>HERE YOU SEE TWO OPTIONS
+											<ul class="collection">
+												<li> THE FIRST OPTION MATCHES YOUR LOCATION WITH THE <B>DUSTBINS LOCATION</B>, AND IF IT IS MATCHED YOU ARE REWARDED A FREE RECHARGE
+												<br><li> THE SECOND OPTION GATHERS THE LIST OF ALL NEAR BY DUSTBINS AROUND YOU.
+										</p>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+
+
+
+	<a class="btn" onclick="claim();">CLAIM REWARD</a><br> <br>
+	<a class ="btn" onclick="checknearme();">CHECK DUSTBINS NEAR ME</a>
+
+
+
+
+	<footer class="page-footer">
+	          <div class="container">
+	            <div class="row">
+	              <div class="col l6 s12">
+	                <h5 class="white-text">MADE BY AADIT KAPOOR<br>FOR THE TECHNAGE HACKATHON</h5>
+	            </div>
+	          </div>
+	          <div class="footer-copyright">
+	            <div class="container">
+	            © 2016 MADE FOR THE TECHNAGE HACKATHON
+	            </div>
+	          </div>
+	        </footer>
+
+
+</body>
+<script>
+$( document ).ready(function() {
+    $(".button-collapse").sideNav();
+
+});
+
+</script>
+</html>
